@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>bbs club</title>
+    <link rel="stylesheet" href="/static/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/static/css/style.css">
+    <link rel="stylesheet" href="/static/lib/editor/editor.css">
+    <link rel="stylesheet" href="/static/lib/webuploader/webuploader.css">
+    <script src="/static/lib/jquery-3.0.0.min.js"></script>
+    <script src="/static/lib/markdownit.js"></script>
+    <script src="/static/lib/webuploader/webuploader.withoutimage.js"></script>
+    <script src="/static/lib/editor/editor.js"></script>
+    <script src="/static/lib/editor/ext.js"></script>
+</head>
+<body>
+<div id="main">
+    <div id="content">
+        <div class='panel'>
+            <div class='header topic_header'>
+        <span class="topic_full_title">
+			{{ topic.title }}
+      	</span>
+                <div class="changes">
+                    <span>
+                        作者 <a href="/user/{{ user.username }}">{{ user.username }}</a>
+                    </span>
+                    <span>
+          	            {{ topic.views }} 次浏览
+        	        </span>
+                    <span>
+                        来自 <a href="/topic/?board_id={{ board.id }}">{{ board.title }}</a>
+                    </span>
+                    <span>
+                        {{ create_time }}
+                    </span>
+                </div>
+            </div>
+
+            <div class='inner topic'>
+                <div class='topic_content'>
+                    <div class="markdown-text">
+                        {{ topic.content }}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class='panel'>
+        <div class='header'>
+            <span class='col_fade'>
+                <!-- 过滤器 -->
+                {{ topic.replies() | count }} 回复
+            </span>
+        </div>
+        {% for r in topic.replies() %}
+        <div class='cell reply_area reply_item'>
+            <div class='author_content'>
+                <a href="/user/{{ r.user().username }}" class="user_avatar">
+                    <img src="{{ r.user().user_image }}" title="{{ r.user().username }}">
+                </a>
+                <div class='user_info'>
+                    <a class='dark reply_author'>
+                        {{ r.user().username }}
+                    </a>
+                    <a class="reply_time">
+                        {{ loop.index }}楼 {{ r.reply_time }}
+                    </a>
+                </div>
+                <div class='user_action'>
+                    <span>
+                        <i class="fa up_btn
+                          fa-thumbs-o-up
+                          invisible" title="喜欢"></i>
+                        <span class="up-count">
+                        </span>
+                    </span>
+                </div>
+            </div>
+            <div class='reply_content from-leiwei1991'>
+                <div class="markdown-text">
+                    {{ r.content }}
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+        <div>
+            <form method="post" action="{{ url_for('reply.add') }}" >
+                <input type="hidden" name="topic_id" value="{{ topic.id }}">
+                <textarea name="content"></textarea>
+                <button>添加回复</button>
+            </form>
+        </div>
+    </div>
+</body>
+</html>
