@@ -16,6 +16,9 @@ def date(t):
     d = time.strftime(format, value)
     return d
 
+def bbs_time(t):
+    pass
+
 
 def log(*args, **kwargs):
     u_t = time.time()
