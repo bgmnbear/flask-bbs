@@ -66,20 +66,20 @@ def login():
         return redirect(url_for('topic.index'))
 
 
-@main.route('/profile')
+@main.route('/setting')
 def profile():
     u = current_user()
     if u is None:
         return redirect(url_for('.index'))
     else:
-        return render_template('profile.html', user=u)
+        return render_template('setting.html', user=u)
 
 
-@main.route('/profile/cpwd', methods=['POST'])
+@main.route('/setting/changepwd', methods=['POST'])
 def change_password():
     form = request.form
     u = User.change_password(form)
-    return redirect(url_for('.profile'))
+    return redirect(url_for('.index'))
 
 
 def valid_suffix(suffix):
@@ -103,7 +103,7 @@ def add_img():
         # filename = str(time.time()) + filename
         filename = '{}.{}'.format(str(uuid.uuid4()), suffix)
         log('path', os.path)
-        file.save(os.path.join('user_image', filename))
+        file.save(os.path.join('E:\\flask-bbs\\user_image', filename))
         # u.add_avatar(filename)
         u.user_image = '/uploads/' + filename
         u.save()
