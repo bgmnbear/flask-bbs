@@ -1,4 +1,4 @@
-import os.path
+import os
 import time
 import json
 
@@ -20,6 +20,6 @@ def date(t):
 def log(*args, **kwargs):
     u_t = time.time()
     dt = date_time(u_t)
-    with open('whister.log.txt', 'a', encoding='utf-8') as f:
+    with open('E:\\flask-bbs\whister.log.txt', 'a', encoding='utf-8') as f:
         print(dt, *args, **kwargs)
         print(dt, *args, file=f, **kwargs)
