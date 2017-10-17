@@ -67,7 +67,7 @@ def login():
 
 
 @main.route('/setting')
-def profile():
+def setting():
     u = current_user()
     if u is None:
         return redirect(url_for('.index'))
