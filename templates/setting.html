@@ -1,0 +1,73 @@
+{% extends "topic/base.html" %}
+{% block main %}
+        <div id="content">
+  <div class="panel">
+    <div class="header">
+      <ul class="breadcrumb">
+        <li><a href="/topic">主页</a><span class="divider">/</span></li>
+      </ul>
+    </div>
+    <div class="inner userinfo">
+        <div class="panel">
+            <div class="inner post">
+                <div class="topic_list">
+                    <div class="cell">
+                        <div class="topic_title_wrapper">
+                            <div class="user_big_avatar">
+                                <img src="{{ user.user_image }}" title="{{ user.username }}"/>
+                            </div>
+                            <a class="dark">{{ user.username }}</a>
+                            <div>
+                                        <label class="control-label">用户ID:{{ user.id }}</label>
+                                    </div>
+                                    <div>
+                                        {{ user.name }}
+                                    </div>
+                                    <div>
+                                        <h3>修改密码</h3>
+{#                                        {{ user.password }}#}
+                                            <form class="form-horizontal" method="post" action="{{ url_for('.change_password') }}">
+        <div class="control-group">
+{#            <label class="control-label">用户名</label>#}
+            <div class="controls" hidden="hidden">
+                <input type="text" class="input-xlarge" name="username" value="{{ user.username }}">
+            </div>
+        </div>
+        <div class="control-group">
+            <label class="control-label">旧密码</label>
+            <div class="controls">
+                <input type="text" class="input-xlarge" name="old-password">
+            </div>
+            <label class="control-label">新密码</label>
+            <div class="controls">
+                <input type="text" class="input-xlarge" name="new-password">
+            </div>
+            <label class="control-label">确认新密码</label>
+            <div class="controls">
+                <input type="text" class="input-xlarge" name="confirm-password">
+            </div>
+        </div>
+        <div class="form-actions">
+            <input type="submit" class="span-primary" value="确认">
+        </div>
+    </form>
+                                    </div>
+                            <div>
+                                    <h3>修改头像</h3>
+                                    <form method=post
+                                              action='{{ url_for(".add_img") }}'
+                                              enctype=multipart/form-data>
+                                            <input type=file name=avatar>
+                                            <input type=submit value=Upload>
+                                            <!--<button type="submit">Upload</button>-->
+                                    </form>
+                            </div>
+                                </div>
+                            </div>
+                    </div>
+                </div>
+        </div>
+    </div>
+  </div>
+        </div>
+{% endblock %}
