@@ -16,8 +16,27 @@ def date(t):
     d = time.strftime(format, value)
     return d
 
+
 def bbs_time(t):
-    pass
+    u_t = time.time()
+    d_t = u_t - int(t)
+
+    d = dict(
+        second=1,
+        minute=60,
+        hour=3600,
+        day=86400,
+    )
+
+    if d['second'] <= d_t < d['minute']:
+        return '{}秒前'.format(int(d_t))
+    elif d['minute'] <= d_t < d['hour']:
+        return '{}分钟前'.format(time.strftime('%M', time.localtime(d_t)))
+    elif d['hour'] <= d_t < d['day']:
+        return '{}小时前'.format(time.strftime('%H', time.localtime(d_t)))
+    elif d_t <= d['hour'] * 3:
+        return '{}天前'.format(time.strftime('%d', time.localtime(d_t)))
+    return date(t)
 
 
 def log(*args, **kwargs):
