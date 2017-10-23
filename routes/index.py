@@ -108,7 +108,7 @@ def add_img():
         u.user_image = '/uploads/' + filename
         u.save()
 
-    return redirect(url_for(".profile"))
+    return redirect(url_for(".setting"))
 
 
 # send_from_directory
