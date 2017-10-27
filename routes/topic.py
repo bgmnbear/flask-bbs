@@ -18,6 +18,7 @@ main = Blueprint('topic', __name__)
 import uuid
 
 csrf_tokens = dict()
+tokens = dict()
 
 
 @main.route("/")
@@ -28,11 +29,11 @@ def index():
         ms = Topic.all()
     else:
         ms = Topic.find_all(board_id=board_id)
-    token = str(uuid.uuid4())
     u = current_user()
     csrf_tokens['token'] = u.id
+    token = str(uuid.uuid4())
     bs = Board.all()
-    return render_template("topic/index.html", user=u, ms=ms, token=token, bs=bs, bid=board_id)
+    return render_template("topic/index.html", user=u, ms=ms, tokens=token, bs=bs, bid=board_id)
 
 
 @main.route('/<int:id>')
@@ -57,19 +58,21 @@ def add():
 @main.route("/delete")
 def delete():
     id = int(request.args.get('id'))
-    token = request.args.get('token')
-    u = current_user()
-    # 判断 token 是否是我们给的
-    if token in csrf_tokens and csrf_tokens[token] == u.id:
-        csrf_tokens.pop(token)
-        if u is not None:
-            print('删除 topic 用户是', u, id)
-            Topic.delete(id)
-            return redirect(url_for('.index'))
-        else:
-            abort(404)
-    else:
-        abort(403)
+    # token = request.args.get('token')
+    # u = current_user()
+    # # 判断 token 是否是我们给的
+    # log('token', token)
+    # log('csrf_tokens', csrf_tokens)
+    # if token in csrf_tokens and csrf_tokens[token] == u.id:
+    #     csrf_tokens.pop(token)
+    #     if u is not None:
+    #         print('删除 topic 用户是', u, id)
+    Topic.delete(id=id)
+    return redirect(url_for('.index'))
+    #     else:
+    #         abort(404)
+    # else:
+    #     abort(403)
 
 
 def new_csrf_token():

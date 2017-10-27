@@ -1,6 +1,8 @@
 import time
 from pymongo import MongoClient
 
+from utils import log
+
 mongoo = MongoClient()
 
 
@@ -179,13 +181,16 @@ class Mongoo(object):
         name = self.__class__.__name__
         mongoo.db[name].save(self.__dict__)
 
-    def delete(self):
-        name = self.__class__.__name__
+    @classmethod
+    def delete(cls, id):
+        name = cls.__name__
         query = {
-            'id': self.id,
+            'id': id,
         }
         values = {
-            'deleted': True
+            "$set": {
+                'deleted': True,
+            },
         }
         mongoo.db[name].update_one(query, values)
 

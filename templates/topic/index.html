@@ -99,9 +99,9 @@
                                         {{ t.title }}
                                     </a>
                                     <span>{{ t.replies() | count }} / {{ t.views }}</span>
-{#                                    <a class="topic_title" href="{{ url_for('topic.delete', id=t.id, token=token) }}">#}
-{#                                        删除#}
-{#                                    </a>#}
+                                    <a class="topic_title" href="{{ url_for('topic.delete', id=t.id) }}">
+                                        删除
+                                    </a>
 
                                 </div>
                             </div>
