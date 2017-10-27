@@ -31,11 +31,11 @@ def bbs_time(t):
     if d['second'] <= d_t < d['minute']:
         return '{}秒前'.format(int(d_t))
     elif d['minute'] <= d_t < d['hour']:
-        return '{}分钟前'.format(time.strftime('%M', time.localtime(d_t)))
+        return '{}分钟前'.format(int(d_t / d['minute']))
     elif d['hour'] <= d_t < d['day']:
-        return '{}小时前'.format(time.strftime('%H', time.localtime(d_t)))
-    elif d_t <= d['hour'] * 3:
-        return '{}天前'.format(time.strftime('%d', time.localtime(d_t)))
+        return '{}小时前'.format(int(d_t / d['hour']))
+    elif d_t <= d['day'] * 3:
+        return '{}天前'.format(int(d_t / d['day']))
     return date(t)
 
 
