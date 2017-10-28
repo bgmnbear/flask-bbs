@@ -27,9 +27,8 @@ def bbs_time(t):
         hour=3600,
         day=86400,
     )
-
-    if d['second'] <= d_t < d['minute']:
-        return '{}秒前'.format(int(d_t))
+    if 0 <= d_t < d['minute']:
+        return '刚刚'
     elif d['minute'] <= d_t < d['hour']:
         return '{}分钟前'.format(int(d_t / d['minute']))
     elif d['hour'] <= d_t < d['day']:
