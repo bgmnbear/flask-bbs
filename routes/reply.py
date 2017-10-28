@@ -7,6 +7,7 @@ from flask import (
 )
 
 from models.mail import Mail
+from models.topic import Topic
 from routes import *
 
 from models.reply import Reply
@@ -53,4 +54,9 @@ def add():
     send_mails(u, users, content)
     log('after send mail')
     m = Reply.new(form, user_id=u.id)
+    # 更新对应topic的update_time
+    t_id = m.topic_id
+    t = Topic.find_by(id=t_id)
+    t.update_time = m.created_time
+    t.save()
     return redirect(url_for('topic.detail', id=m.topic_id))
