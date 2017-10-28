@@ -51,7 +51,7 @@
                         {{ r.user().username }}
                     </a>
                     <a class="reply_time">
-                        {{ loop.index }}楼 {{ r.reply_time }}
+                        {{ loop.index }}楼 {{ bbs_time(r.reply_time) }}
                     </a>
                 </div>
                 <div class='user_action'>

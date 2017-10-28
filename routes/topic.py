@@ -11,7 +11,7 @@ from routes import *
 
 from models.topic import Topic
 from models.board import Board
-from utils import date_time, date, log
+from utils import date_time, date, log, bbs_time
 
 main = Blueprint('topic', __name__)
 
@@ -42,9 +42,9 @@ def detail(id):
     u_id = m.user_id
     u = User.find_by(id=u_id)
     b = m.board()
-    ct = date(m.create_time)
+    ct = bbs_time(m.create_time)
     # 传递 topic 的所有 reply 到 页面中
-    return render_template("topic/detail.html", topic=m, user=u, board=b, create_time=ct)
+    return render_template("topic/detail.html", topic=m, user=u, board=b, create_time=ct, bbs_time=bbs_time)
 
 
 @main.route("/add", methods=["POST"])
