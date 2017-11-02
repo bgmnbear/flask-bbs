@@ -54,8 +54,6 @@ class Mongoo(object):
             # (字段名, 类型, 值)
             ('id', int, -1),
             ('deleted', bool, False),
-            ('created_time', int, 0),
-            ('updated_time', int, 0),
         ]
         return names
 

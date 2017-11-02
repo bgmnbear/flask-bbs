@@ -15,6 +15,7 @@ class Topic(Mongoo):
             ('user_id', int, 0),
             ('board_id', int, 0),
             ('create_time', int, time.time()),
+            ('update_time', int, time.time()),
         ]
         return names
 
