@@ -32,7 +32,7 @@ def index():
     log('sorted ts', ts)
     token = str(uuid.uuid4())
     u = current_user()
-    csrf_tokens['token'] = u.id
+    # csrf_tokens['token'] = u.id
     bs = Board.all()
     return render_template("topic/index.html", user=u, ms=ts, token=token, bs=bs, bid=board_id, bbs_time=bbs_time)
 
@@ -66,9 +66,11 @@ def delete():
     # if token in csrf_tokens and csrf_tokens[token] == u.id:
     #     csrf_tokens.pop(token)
     if u is not None:
-        print('删除 topic 用户是', u, id)
-        Topic.delete(id)
-        return redirect(url_for('.index'))
+        if u.id == Topic.find_by(id=id).user_id:
+            Topic.delete(id)
+            return redirect(url_for('.index'))
+        else:
+            abort(403)
     else:
             abort(404)
     # else:
@@ -89,4 +91,3 @@ def new():
     token = new_csrf_token()
     bs = Board.all()
     return render_template("topic/new.html", bs=bs, token=token, bid=board_id)
-
