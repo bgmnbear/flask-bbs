@@ -18,8 +18,11 @@
                         来自 <a href="/topic/?board_id={{ board.id }}">{{ board.title }}</a>
                     </span>
                     <span>
-                        {{ create_time }}
+                        创建于 {{ bbs_time(create_time) }}
                     </span>
+                    <span>
+          	            最后更新时间 {{ bbs_time(update_time) }}
+        	        </span>
                 </div>
             </div>
 

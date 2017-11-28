@@ -102,6 +102,7 @@
                                     <a class="topic_title" href="{{ url_for('topic.delete', id=t.id) }}">
                                         删除
                                     </a>
+                                    <span>{{ bbs_time(t.update_time) }}</span>
 
                                 </div>
                             </div>

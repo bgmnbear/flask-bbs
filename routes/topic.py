@@ -34,7 +34,7 @@ def index():
     u = current_user()
     csrf_tokens['token'] = u.id
     bs = Board.all()
-    return render_template("topic/index.html", user=u, ms=ts, token=token, bs=bs, bid=board_id)
+    return render_template("topic/index.html", user=u, ms=ts, token=token, bs=bs, bid=board_id, bbs_time=bbs_time)
 
 
 @main.route('/<int:id>')
@@ -43,9 +43,10 @@ def detail(id):
     u_id = m.user_id
     u = User.find_by(id=u_id)
     b = m.board()
-    ct = date(m.create_time)
+    ct = m.create_time
+    ut = m.update_time
     # 传递 topic 的所有 reply 到 页面中
-    return render_template("topic/detail.html", topic=m, user=u, board=b, create_time=ct, bbs_time=bbs_time)
+    return render_template("topic/detail.html", topic=m, user=u, board=b, create_time=ct, update_time=ut, bbs_time=bbs_time)
 
 
 @main.route("/add", methods=["POST"])
@@ -88,3 +89,4 @@ def new():
     token = new_csrf_token()
     bs = Board.all()
     return render_template("topic/new.html", bs=bs, token=token, bid=board_id)
+

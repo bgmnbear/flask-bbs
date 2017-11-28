@@ -41,6 +41,7 @@
     </div>
       <div class="inner post">
                     <div class="topic_list">
+                    {% if ts is not none %}
                         {% for t in ts %}
                             <div class="cell">
                                 <div class="topic_title_wrapper">
@@ -53,13 +54,14 @@
                                         {{ t.title }}
                                     </a>
                                     <span>{{ t.replies() | count }} / {{ t.views }}</span>
-{#                                    <a class="topic_title" href="{{ url_for('topic.delete', id=t.id, token=token) }}">#}
+{#                                    <a class="topic_title" href="{{ url_for('topic.delete', id=t.id, token=t.token) }}">#}
 {#                                        删除#}
 {#                                    </a>#}
 
                                 </div>
                             </div>
                         {% endfor %}
+                    {% endif %}
                     </div>
                 </div>
 
@@ -72,6 +74,7 @@
     </div>
       <div class="inner post">
                     <div class="topic_list">
+                    {% if ots is not none %}
                         {% for t in ots %}
                             <div class="cell">
                                 <div class="topic_title_wrapper">
@@ -91,6 +94,7 @@
                                 </div>
                             </div>
                         {% endfor %}
+                    {% endif %}
                     </div>
                 </div>
     </div>
