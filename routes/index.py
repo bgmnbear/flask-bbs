@@ -13,6 +13,7 @@ from models.user import User
 import os
 import uuid
 
+from routes import delete_session
 from utils import log
 
 main = Blueprint('index', __name__)
@@ -39,6 +40,7 @@ def current_user():
 
 @main.route("/")
 def index():
+    delete_session()
     u = current_user()
     return render_template("index.html", user=u)
 
@@ -75,7 +77,7 @@ def setting():
         return render_template('setting.html', user=u)
 
 
-@main.route('/setting/changepwd', methods=['POST'])
+@main.route('/setting/', methods=['POST'])
 def change_password():
     form = request.form
     u = User.change_password(form)

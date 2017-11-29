@@ -1,10 +1,8 @@
 # from models import Model
 from models.mongoo import Mongoo
 
-Model = Mongoo
 
-
-class User(Model):
+class User(Mongoo):
     """
     User 是一个保存用户数据的 model
     现在只有两个属性 username 和 password
@@ -61,11 +59,11 @@ class User(Model):
     @classmethod
     def change_password(cls, form):
         u = User.find_by(username=form.get('username', ''))
-        o_pwd = form.get('old-password', '')
-        n_pwd = form.get('new-password', '')
-        c_pwd = form.get('confirm-password', '')
-        if u.salted_password(o_pwd) == u.password and n_pwd == c_pwd:
-            u.password = u.salted_password(n_pwd)
+        o_p = form.get('old-password', '')
+        n_p = form.get('new-password', '')
+        c_p = form.get('confirm-password', '')
+        if u.salted_password(o_p) == u.password and n_p == c_p:
+            u.password = u.salted_password(n_p)
             u.save()
             return u
         else:

@@ -32,9 +32,12 @@ def index():
     log('sorted ts', ts)
     token = str(uuid.uuid4())
     u = current_user()
-    # csrf_tokens['token'] = u.id
-    bs = Board.all()
-    return render_template("topic/index.html", user=u, ms=ts, token=token, bs=bs, bid=board_id, bbs_time=bbs_time)
+    if u is None:
+        abort(403)
+    else:
+        csrf_tokens['token'] = u.id
+        bs = Board.all()
+        return render_template("topic/index.html", user=u, ms=ts, token=token, bs=bs, bid=board_id, bbs_time=bbs_time)
 
 
 @main.route('/<int:id>')
@@ -46,7 +49,8 @@ def detail(id):
     ct = m.create_time
     ut = m.update_time
     # 传递 topic 的所有 reply 到 页面中
-    return render_template("topic/detail.html", topic=m, user=u, board=b, create_time=ct, update_time=ut, bbs_time=bbs_time)
+    return render_template("topic/detail.html", topic=m, user=u, board=b, create_time=ct, update_time=ut,
+                           bbs_time=bbs_time)
 
 
 @main.route("/add", methods=["POST"])
@@ -72,9 +76,9 @@ def delete():
         else:
             abort(403)
     else:
-            abort(404)
-    # else:
-    #     abort(403)
+        abort(404)
+        # else:
+        #     abort(403)
 
 
 def new_csrf_token():

@@ -16,7 +16,6 @@ main = Blueprint('board', __name__)
 @main.route("/admin")
 def index():
     return render_template('board/admin_index.html')
-    ...
 
 
 @main.route("/add", methods=["POST"])

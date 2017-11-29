@@ -16,5 +16,10 @@ def sort_by_ct(topics):
 def sort_by_ut(topics):
     return sorted(topics, key=lambda topic: topic.update_time, reverse=True)
 
+
 def sort_by_rt(replys):
     return sorted(replys, key=lambda reply: reply.reply_time, reverse=True)
+
+
+def delete_session():
+    session.clear()

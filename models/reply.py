@@ -2,10 +2,8 @@ import time
 
 from models.mongoo import Mongoo
 
-Model = Mongoo
 
-
-class Reply(Model):
+class Reply(Mongoo):
     @classmethod
     def valid_names(cls):
         names = super().valid_names()
