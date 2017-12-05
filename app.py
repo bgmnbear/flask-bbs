@@ -5,6 +5,8 @@ from routes.reply import main as reply_routes
 from routes.board import main as board_routes
 from routes.mail import main as mail_routes
 from routes.user import main as user_routes
+from routes.search import main as search_routes
+
 from config import secret_key
 
 
@@ -29,6 +31,7 @@ def configured_app():
     app.register_blueprint(board_routes, url_prefix='/board')
     app.register_blueprint(mail_routes, url_prefix='/mail')
     app.register_blueprint(user_routes, url_prefix='/user')
+    app.register_blueprint(search_routes, url_prefix='/search')
     return app
 
 

@@ -1,43 +1,10 @@
 {% extends "topic/base.html" %}
 {% block main %}
-    <div id="content">
-  <div class="panel">
+     <div id="content">
+
+      <div class="panel">
     <div class="header">
-      <ul class="breadcrumb">
-        <li><a href="/topic">主页</a><span class="divider">/</span></li>
-      </ul>
-    </div>
-    <div class="inner userinfo">
-      <div class="user_big_avatar">
-        <img src="{{ user.user_image }}" title="{{ user.username }}"/>
-      </div>
-      <a class="dark">{{ user.username }}</a>
-
-      <div class="user_profile">
-        <ul class="unstyled">
-          <span class="big">0</span> 积分
-
-
-
-
-          <li>
-            <i class="fa fa-lg fa-fw fa-github"></i>
-{#            <a class="dark" href="https://github.com/bgmnbear" target="_blank">#}
-{#              @bgmnbear#}
-{#            </a>#}
-          </li>
-
-
-        </ul>
-      </div>
-{#      <p class="col_fade">注册时间 1 个月前</p>#}
-
-    </div>
-  </div>
-
-  <div class="panel">
-    <div class="header">
-      <span class="col_fade">最近创建的话题</span>
+      <span class="col_fade">相关帖子</span>
     </div>
       <div class="inner post">
                     <div class="topic_list">
@@ -66,35 +33,27 @@
                 </div>
   </div>
 
-  <div class="panel">
+     <div class="panel">
     <div class="header">
-      <span class="col_fade">最近参与的话题</span>
+      <span class="col_fade">相关用户</span>
     </div>
       <div class="inner post">
                     <div class="topic_list">
-                    {% if ots is not none %}
-                        {% for t in ots %}
+                    {% if us is not none %}
+                        {% for t in us %}
                             <div class="cell">
                                 <div class="topic_title_wrapper">
 
                                     <a class="user_avatar pull-left">
-                                        <img src="{{ t.user().user_image }}" title="{{ t.user().username }}"/>
+                                        <img src="{{ t.user_image }}" title="{{ t.username }}"/>
                                     </a>
-
-                                    <a class="topic_title" href="{{ url_for('topic.detail', id=t.id) }}">
-                                        {{ t.title }}
-                                    </a>
-                                    <span>{{ t.replies() | count }} / {{ t.views }}</span>
-{#                                    <a class="topic_title" href="{{ url_for('topic.delete', id=t.id, token=token) }}">#}
-{#                                        删除#}
-{#                                    </a>#}
-
                                 </div>
                             </div>
                         {% endfor %}
                     {% endif %}
                     </div>
                 </div>
-    </div>
   </div>
+
+     </div>
 {% endblock %}
