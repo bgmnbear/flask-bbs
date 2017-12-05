@@ -39,17 +39,16 @@
     </div>
       <div class="inner post">
                     <div class="topic_list">
-                    {% if us is not none %}
-                        {% for t in us %}
+                    {% if u is not none %}
                             <div class="cell">
                                 <div class="topic_title_wrapper">
 
                                     <a class="user_avatar pull-left">
-                                        <img src="{{ t.user_image }}" title="{{ t.username }}"/>
+                                        <img src="{{ u.user_image }}" title="{{ u.username }}"/>
                                     </a>
+                                    <a href="{{ url_for('user.user', username=u.username) }}">{{ u.username }}</a>
                                 </div>
                             </div>
-                        {% endfor %}
                     {% endif %}
                     </div>
                 </div>

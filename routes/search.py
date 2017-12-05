@@ -12,5 +12,5 @@ main = Blueprint('search', __name__)
 def search():
     q = request.args.get('q')
     ts = Topic.find_all(title=q)
-    us = User.find_by(username=q)
-    return render_template('search.html', ts=ts, us=us)
+    u = User.find_by(username=q)
+    return render_template('search.html', ts=ts, u=u)
