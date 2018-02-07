@@ -1,5 +1,6 @@
 {% extends "topic/base.html" %}
 {% block main %}
+
     <div id="main">
         <div id="sidebar">
             <div class="panel">
@@ -84,6 +85,11 @@
                             {{ b.title }}
                         </a>
                     {% endfor %}
+
+                    <a href="/board/admin"
+                       class="topic-tab current-tab">
+                        管理
+                    </a>
                 </div>
                 <div class="inner post">
                     <div class="topic_list">
