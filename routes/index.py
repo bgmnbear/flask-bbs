@@ -7,8 +7,10 @@ from flask import (
     Blueprint,
     make_response,
     send_from_directory,
-)
+    flash)
 from werkzeug.utils import secure_filename
+
+from config import debug_mode
 from models.user import User
 import os
 import uuid
@@ -34,15 +36,18 @@ def current_user():
     注册
     登录
 
-用户登录后, 会写入 session, 并且定向到 /profile
+用户登录后, 会写入 session, 并且定向到 /topic
 """
 
 
 @main.route("/")
 def index():
-    delete_session()
-    u = current_user()
-    return render_template("index.html", user=u)
+    if debug_mode == True:
+        delete_session()
+        u = current_user()
+        return render_template("index.html", user=u)
+    else:
+        return redirect(url_for('topic.index'))
 
 
 @main.route("/register", methods=['POST'])
@@ -58,11 +63,12 @@ def login():
     form = request.form
     u = User.validate_login(form)
     if u is None:
-        # 转到 topic.index 页面
-        return redirect(url_for('topic.index'))
+        flash(u'用户名或密码错误')
+        return render_template('index.html')
     else:
         # session 中写入 user_id
         session['user_id'] = u.id
+        # log('u_id', u, u.username, u.id)
         # 设置 cookie 有效期为 永久
         session.permanent = True
         return redirect(url_for('topic.index'))
@@ -105,7 +111,7 @@ def add_img():
         # filename = str(time.time()) + filename
         filename = '{}.{}'.format(str(uuid.uuid4()), suffix)
         log('path', os.path)
-        file.save(os.path.join('E:\\flask-bbs\\user_image', filename))
+        file.save(os.path.join('user_image', filename))
         # u.add_avatar(filename)
         u.user_image = '/uploads/' + filename
         u.save()

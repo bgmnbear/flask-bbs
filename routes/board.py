@@ -4,6 +4,7 @@ from flask import (
     redirect,
     url_for,
     Blueprint,
+    abort,
     flash)
 
 from config import admin
@@ -20,7 +21,8 @@ def index():
     if u.username == admin['username']:
         return render_template('board/admin_index.html')
     else:
-        flash(u'您的当前用户不是管理员！请重新登录')
+        abort(403)
+
 
 @main.route("/add", methods=["POST"])
 def add():
