@@ -1,3 +1,4 @@
+import re
 import time
 from pymongo import MongoClient
 
@@ -40,7 +41,6 @@ def next_id(name):
     # B 查询拿不到数据 会等待
     # A 更新 数据变成了2
     # B 查询拿到数据2
-
 
     new_id = doc.find_and_modify(**kwargs).get('seq')
     return new_id
@@ -174,6 +174,15 @@ class Mongoo(object):
             return l[0]
         else:
             return None
+
+    @classmethod
+    def search(cls, query):
+        name = cls.__name__
+        keyword = name.lower()
+        ds = mongoo.db[name].find({'title': {'$regex': '.*' + query + '.*'}})
+        l = [cls._new_with_bson(d) for d in ds]
+        result = filter(lambda x: x.deleted is False, l)
+        return result
 
     def save(self):
         name = self.__class__.__name__
