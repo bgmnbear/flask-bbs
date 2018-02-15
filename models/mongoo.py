@@ -1,4 +1,3 @@
-import re
 import time
 from pymongo import MongoClient
 
@@ -26,21 +25,8 @@ def next_id(name):
         'upsert': True,
         'new': True,
     }
-    # 存储数据的 id
+
     doc = mongoo.db['data_id']
-    # find_and_modify 是一个原子操作函数
-
-    # 没有原子操作
-    # A 查询拿到了 1
-    # B 查询拿到了 1
-    # B 先更新 数据变成了2
-    # A 数据还是1
-
-    # 有原子操作
-    # A 查询拿到了 1
-    # B 查询拿不到数据 会等待
-    # A 更新 数据变成了2
-    # B 查询拿到数据2
 
     new_id = doc.find_and_modify(**kwargs).get('seq')
     return new_id
@@ -165,11 +151,8 @@ class Mongoo(object):
 
     @classmethod
     def find_one(cls, **kwargs):
-        """
-        """
         kwargs['deleted'] = False
         l = cls._find(**kwargs)
-        # print('find one debug', kwargs, l)
         if len(l) > 0:
             return l[0]
         else:
@@ -178,7 +161,6 @@ class Mongoo(object):
     @classmethod
     def search(cls, query):
         name = cls.__name__
-        keyword = name.lower()
         ds = mongoo.db[name].find({'title': {'$regex': '.*' + query + '.*'}})
         l = [cls._new_with_bson(d) for d in ds]
         result = filter(lambda x: x.deleted is False, l)
