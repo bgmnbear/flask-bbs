@@ -36,8 +36,6 @@ def index():
 @main.route("/view/<int:id>")
 def view(id):
     mail = Mail.find(id)
-    # 不是你自己收发的，你肯定不能看
-    # 不是收的人，那你看了也不会变成已读
     if current_user().id == mail.receiver_id:
         mail.mark_read()
     if current_user().id in [mail.receiver_id, mail.sender_id]:

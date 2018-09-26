@@ -1,4 +1,5 @@
 # from models import Model
+from models.follow import Follow
 from models.mongoo import Mongoo
 
 
@@ -42,6 +43,9 @@ class User(Mongoo):
         if len(name) > 2 and User.find_by(username=name) is None:
             u = User.new(form)
             u.password = u.salted_password(pwd)
+
+            f = Follow.new(user_id=u.id)
+
             u.save()
             return u
         else:
