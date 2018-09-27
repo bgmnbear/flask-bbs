@@ -21,6 +21,7 @@ class User(Mongoo):
 
     def salted_password(self, password, salt='$!@><?>HUI&DWQa`'):
         import hashlib
+
         def sha256(ascii_str):
             return hashlib.sha256(ascii_str.encode('ascii')).hexdigest()
 
@@ -53,9 +54,8 @@ class User(Mongoo):
 
     @classmethod
     def validate_login(cls, form):
-        u = User.new(form)
-        user = User.find_by(username=u.username)
-        if user is not None and user.password == u.salted_password(u.password):
+        user = User.find_by(username=form['username'])
+        if user is not None and user.password == user.salted_password(password=form['password']):
             return user
         else:
             return None

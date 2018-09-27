@@ -134,11 +134,22 @@ class Mongoo(object):
     def find_one(cls, **kwargs):
         kwargs['deleted'] = False
         l = cls._find(**kwargs)
+<<<<<<< HEAD
 
+=======
+>>>>>>> 5f024ad043a6a596ec480e2fbbcab5cddc02d981
         if len(l) > 0:
             return l[0]
         else:
             return None
+
+    @classmethod
+    def search(cls, query):
+        name = cls.__name__
+        ds = mongoo.db[name].find({'title': {'$regex': '.*' + query + '.*'}})
+        l = [cls._new_with_bson(d) for d in ds]
+        result = filter(lambda x: x.deleted is False, l)
+        return result
 
     def save(self):
         name = self.__class__.__name__

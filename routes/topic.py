@@ -13,9 +13,11 @@ from models.topic import Topic
 from models.board import Board
 from utils import date_time, date, log, bbs_time
 
-main = Blueprint('topic', __name__)
-
 import uuid
+
+import config
+
+main = Blueprint('topic', __name__)
 
 csrf_tokens = dict()
 
@@ -29,7 +31,6 @@ def index():
     else:
         ts = Topic.find_all(board_id=board_id)
     ts = sort_by_ut(ts)
-    log('sorted ts', ts)
     token = str(uuid.uuid4())
     u = current_user()
     if u is None:
@@ -37,7 +38,13 @@ def index():
     else:
         csrf_tokens['token'] = u.id
         bs = Board.all()
-        return render_template("topic/index.html", user=u, ms=ts, token=token, bs=bs, bid=board_id, bbs_time=bbs_time)
+        return render_template("topic/index.html",
+                               user=u,
+                               ms=ts,
+                               token=token,
+                               bs=bs,
+                               bid=board_id,
+                               bbs_time=bbs_time)
 
 
 @main.route('/<int:id>')
@@ -49,7 +56,12 @@ def detail(id):
     ct = m.create_time
     ut = m.update_time
     # 传递 topic 的所有 reply 到 页面中
-    return render_template("topic/detail.html", topic=m, user=u, board=b, create_time=ct, update_time=ut,
+    return render_template("topic/detail.html",
+                           topic=m,
+                           user=u,
+                           board=b,
+                           create_time=ct,
+                           update_time=ut,
                            bbs_time=bbs_time)
 
 
@@ -69,21 +81,14 @@ def delete():
     # 判断 token 是否是我们给的
     # if token in csrf_tokens and csrf_tokens[token] == u.id:
     #     csrf_tokens.pop(token)
-    if u is not None:
-        if u.id == Topic.find_by(id=id).user_id:
-            Topic.delete(id)
-            return redirect(url_for('.index'))
-        else:
-            abort(403)
-    else:
-        abort(404)
-        # else:
-        #     abort(403)
+    if u is not None and u.username == config.admin['username']:
+        Topic.delete(id)
+        return redirect(url_for('.index'))
+    abort(403)
 
 
 def new_csrf_token():
     u = current_user()
-    log('user', u)
     token = str(uuid.uuid4())
     csrf_tokens[token] = u.id
     return token
@@ -93,5 +98,6 @@ def new_csrf_token():
 def new():
     board_id = int(request.args.get('board_id'))
     token = new_csrf_token()
+    # log('new_csrf_token', token)
     bs = Board.all()
     return render_template("topic/new.html", bs=bs, token=token, bid=board_id)
