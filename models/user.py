@@ -1,14 +1,8 @@
-# from models import Model
 from models.follow import Follow
 from models.mongoo import Mongoo
 
 
 class User(Mongoo):
-    """
-    User 是一个保存用户数据的 model
-    现在只有两个属性 username 和 password
-    """
-
     @classmethod
     def valid_names(cls):
         names = super().valid_names()
@@ -44,10 +38,11 @@ class User(Mongoo):
         if len(name) > 2 and User.find_by(username=name) is None:
             u = User.new(form)
             u.password = u.salted_password(pwd)
+            u.save()
 
             f = Follow.new(user_id=u.id)
+            f.save()
 
-            u.save()
             return u
         else:
             return None

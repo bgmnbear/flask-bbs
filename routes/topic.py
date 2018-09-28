@@ -24,7 +24,6 @@ csrf_tokens = dict()
 
 @main.route("/")
 def index():
-    # board_id = 2
     board_id = int(request.args.get('board_id', -1))
     if board_id == -1:
         ts = Topic.all()
@@ -55,7 +54,6 @@ def detail(id):
     b = m.board()
     ct = m.create_time
     ut = m.update_time
-    # 传递 topic 的所有 reply 到 页面中
     return render_template("topic/detail.html",
                            topic=m,
                            user=u,
@@ -78,7 +76,6 @@ def delete():
     id = int(request.args.get('id'))
     # token = request.args.get('token')
     u = current_user()
-    # 判断 token 是否是我们给的
     # if token in csrf_tokens and csrf_tokens[token] == u.id:
     #     csrf_tokens.pop(token)
     if u is not None and u.username == config.admin['username']:
