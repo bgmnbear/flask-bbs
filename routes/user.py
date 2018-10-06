@@ -1,5 +1,6 @@
 from flask import Blueprint, render_template, redirect, abort
 
+from models.follow import Follow
 from models.reply import Reply
 from models.topic import Topic
 from models.user import User
@@ -21,3 +22,15 @@ def user(username):
         return render_template("user.html", user=u, ts=ts, ots=ots)
     else:
         abort(404)
+
+
+# TODO, did not return a response bug fixes
+@main.route("/<string:username>/follow")
+def follow(username):
+    c_u = current_user()
+    u = User.find_by(username=username)
+    log('finish')
+    if u is not None:
+        u_id = u.id
+        Follow.add_follow(c_u.id, u_id)
+    return None

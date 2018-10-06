@@ -20,9 +20,6 @@ main = Blueprint('index', __name__)
 
 
 def current_user():
-    # 从 session 中找到 user_id 字段, 找不到就 -1
-    # 然后 User.find_by 来用 id 找用户
-    # 找不到就返回 None
     uid = session.get('user_id', -1)
     u = User.find_by(id=uid)
     return u
@@ -83,28 +80,19 @@ def valid_suffix(suffix):
 def add_img():
     u = current_user()
 
-    # file 是一个上传的文件对象
     file = request.files['avatar']
     suffix = file.filename.split('.')[-1]
     if valid_suffix(suffix):
-        # 上传的文件一定要用 secure_filename 函数过滤一下名字
-        # ../../../../../../../root/.ssh/authorized_keys
-        # filename = secure_filename(file.filename)
-        # 2017/6/14/19/56/yiasduifhy289389f.png
-        # import time
-        # filename = str(time.time()) + filename
         filename = '{}.{}'.format(str(uuid.uuid4()), suffix)
         log('path', os.path)
         file.save(os.path.join('E:\\flask-bbs\\user_image', filename))
-        # u.add_avatar(filename)
+
         u.user_image = '/uploads/' + filename
         u.save()
 
     return redirect(url_for(".setting"))
 
 
-# send_from_directory
-# nginx 静态文件
 @main.route("/uploads/<filename>")
 def uploads(filename):
     return send_from_directory('user_image', filename)
