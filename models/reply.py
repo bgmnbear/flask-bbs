@@ -1,5 +1,4 @@
 import time
-
 from models.mongoo import Mongoo
 
 

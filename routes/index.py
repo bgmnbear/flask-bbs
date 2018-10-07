@@ -5,10 +5,9 @@ from flask import (
     session,
     url_for,
     Blueprint,
-    make_response,
     send_from_directory,
 )
-from werkzeug.utils import secure_filename
+
 from models.user import User
 import os
 import uuid
@@ -20,14 +19,17 @@ main = Blueprint('index', __name__)
 
 
 def current_user():
-    uid = session.get('user_id', -1)
-    u = User.find_by(id=uid)
+    user_id = session.get('user_id', -1)
+    u = User.find_by(id=user_id)
     return u
 
 
+# TODO, debug mode
 @main.route("/")
 def index():
+    # Just for debug and test
     delete_session()
+
     u = current_user()
     return render_template("index.html", user=u)
 
@@ -35,8 +37,7 @@ def index():
 @main.route("/register", methods=['POST'])
 def register():
     form = request.form
-    # 用类函数来判断
-    u = User.register(form)
+    User.register(form)
     return redirect(url_for('.index'))
 
 
@@ -45,12 +46,9 @@ def login():
     form = request.form
     u = User.validate_login(form)
     if u is None:
-        # 转到 topic.index 页面
         return redirect(url_for('topic.index'))
     else:
-        # session 中写入 user_id
         session['user_id'] = u.id
-        # 设置 cookie 有效期为 永久
         session.permanent = True
         return redirect(url_for('topic.index'))
 
@@ -67,7 +65,7 @@ def setting():
 @main.route('/setting/', methods=['POST'])
 def change_password():
     form = request.form
-    u = User.change_password(form)
+    User.change_password(form)
     return redirect(url_for('.index'))
 
 
@@ -79,12 +77,11 @@ def valid_suffix(suffix):
 @main.route('/image/add', methods=["POST"])
 def add_img():
     u = current_user()
-
     file = request.files['avatar']
     suffix = file.filename.split('.')[-1]
     if valid_suffix(suffix):
         filename = '{}.{}'.format(str(uuid.uuid4()), suffix)
-        log('path', os.path)
+        # TODO, get path dynamically
         file.save(os.path.join('E:\\flask-bbs\\user_image', filename))
 
         u.user_image = '/uploads/' + filename

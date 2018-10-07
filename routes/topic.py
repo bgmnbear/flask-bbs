@@ -22,6 +22,7 @@ main = Blueprint('topic', __name__)
 csrf_tokens = dict()
 
 
+# TODO, refactor
 @main.route("/")
 def index():
     board_id = int(request.args.get('board_id', -1))
@@ -29,7 +30,7 @@ def index():
         ts = Topic.all()
     else:
         ts = Topic.find_all(board_id=board_id)
-    ts = sort_by_ut(ts)
+    ts = sort_by_update_time(ts)
     token = str(uuid.uuid4())
     u = current_user()
     if u is None:

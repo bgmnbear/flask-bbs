@@ -1,5 +1,4 @@
 import time
-
 from models.mongoo import Mongoo
 from models.user import User
 
@@ -21,20 +20,20 @@ class Topic(Mongoo):
 
     @classmethod
     def get(cls, id):
-        m = cls.find_by(id=id)
-        m.views += 1
-        m.save()
-        return m
+        topic = cls.find_by(id=id)
+        topic.views += 1
+        topic.save()
+        return topic
 
     def replies(self):
         from .reply import Reply
-        ms = Reply.find_all(topic_id=self.id)
-        return ms
+        r = Reply.find_all(topic_id=self.id)
+        return r
 
     def board(self):
         from .board import Board
-        m = Board.find(self.board_id)
-        return m
+        b = Board.find(self.board_id)
+        return b
 
     def user(self):
         u = User.find(id=self.user_id)

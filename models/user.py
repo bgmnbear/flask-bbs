@@ -25,10 +25,9 @@ class User(Mongoo):
 
     def hashed_password(self, pwd):
         import hashlib
-        # 用 ascii 编码转换成 bytes 对象
+
         p = pwd.encode('ascii')
         s = hashlib.sha256(p)
-        # 返回摘要字符串
         return s.hexdigest()
 
     @classmethod
@@ -36,13 +35,13 @@ class User(Mongoo):
         name = form.get('username', '')
         pwd = form.get('password', '')
         if len(name) > 2 and User.find_by(username=name) is None:
+            # create user model
             u = User.new(form)
             u.password = u.salted_password(pwd)
             u.save()
-
+            # create follow model
             f = Follow.new(user_id=u.id)
             f.save()
-
             return u
         else:
             return None
@@ -58,11 +57,11 @@ class User(Mongoo):
     @classmethod
     def change_password(cls, form):
         u = User.find_by(username=form.get('username', ''))
-        o_p = form.get('old-password', '')
-        n_p = form.get('new-password', '')
-        c_p = form.get('confirm-password', '')
-        if u.salted_password(o_p) == u.password and n_p == c_p:
-            u.password = u.salted_password(n_p)
+        old_pwd = form.get('old-password', '')
+        new_pwd = form.get('new-password', '')
+        confirm_pwd = form.get('confirm-password', '')
+        if u.salted_password(old_pwd) == u.password and new_pwd == confirm_pwd:
+            u.password = u.salted_password(new_pwd)
             u.save()
             return u
         else:

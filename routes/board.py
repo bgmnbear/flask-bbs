@@ -5,7 +5,7 @@ from flask import (
     url_for,
     Blueprint,
     abort,
-    flash)
+)
 
 from config import admin
 from routes import *
@@ -27,6 +27,5 @@ def index():
 @main.route("/add", methods=["POST"])
 def add():
     form = request.form
-    u = current_user()
-    m = Board.new(form)
+    Board.new(form)
     return redirect(url_for('topic.index'))

@@ -1,5 +1,4 @@
 from flask import (
-    render_template,
     request,
     redirect,
     url_for,
@@ -17,7 +16,6 @@ main = Blueprint('reply', __name__)
 
 
 def users_from_content(content):
-    # 不能解决 @在文本中间 比如 123@name abc，这样就不能获得name了
     parts = content.split(' ')
     users = []
     for p in parts:

@@ -1,8 +1,6 @@
 import time
 from pymongo import MongoClient
 
-from utils import log
-
 mongoo = MongoClient()
 
 
