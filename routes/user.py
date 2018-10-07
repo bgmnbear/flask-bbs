@@ -19,7 +19,14 @@ def user(username):
         ots_ids = [r.topic_id for r in rs]
         ots_id = sorted(set(ots_ids), key=ots_ids.index)
         ots = [Topic.find_by(id=i) for i in ots_id]
-        return render_template("user.html", user=u, ts=ts, ots=ots)
+
+        f = Follow.find_by(user_id=u.id)
+
+        following = [User.find_by(id=id)for id in f.following_id]
+        follower = [User.find_by(id=id)for id in f.follower_id]
+        print('following', following)
+
+        return render_template("user.html", user=u, ts=ts, ots=ots, following=following, follower=follower)
     else:
         abort(404)
 

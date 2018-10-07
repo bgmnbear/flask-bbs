@@ -87,11 +87,62 @@
                 </div>
             </div>
         </div>
+
+        <div class="panel">
+            <div class="header">
+                <span class="col_fade">following</span>
+            </div>
+            <div class="inner post">
+                <div class="topic_list">
+                    {% if following is not none %}
+                        {% for f in following %}
+                            <div class="cell">
+                                <div class="topic_title_wrapper">
+
+                                    <a class="user_avatar pull-left">
+                                        <img src="{{ f.user_image }}" title="{{ f.username }}"/>
+                                    </a>
+
+                                    <a href="{{ url_for('user.user', username=f.username) }}">{{ f.username }}</a>
+
+                                </div>
+                            </div>
+                        {% endfor %}
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="panel">
+        <div class="header">
+            <span class="col_fade">follower</span>
+        </div>
+        <div class="inner post">
+            <div class="topic_list">
+                {% if follower is not none %}
+                    {% for f in follower %}
+                        <div class="cell">
+                            <div class="topic_title_wrapper">
+
+                                <a class="user_avatar pull-left">
+                                    <img src="{{ f.user_image }}" title="{{ f.username }}"/>
+                                </a>
+
+                                <a href="{{ url_for('user.user', username=f.username) }}">{{ f.username }}</a>
+
+                            </div>
+                        </div>
+                    {% endfor %}
+                {% endif %}
+            </div>
+        </div>
+    </div>
     </div>
     <script>
         $('#follow').on('click', function () {
             $(this).button('complete')
-            let href=$('#follow_href').attr('href')
+            let href = $('#follow_href').attr('href')
             jQuery.get(href)
         })
     </script>
