@@ -43,7 +43,7 @@ def add():
     log('reply add')
     form = request.form
     u = current_user()
-    # 发邮件
+
     log('before send mail', form)
     content = form.get('content')
     log('reply', content)
@@ -52,7 +52,7 @@ def add():
     send_mails(u, users, content)
     log('after send mail')
     m = Reply.new(form, user_id=u.id)
-    # 更新对应topic的update_time
+
     t_id = m.topic_id
     t = Topic.find_by(id=t_id)
     t.update_time = m.created_time
