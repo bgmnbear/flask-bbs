@@ -22,6 +22,7 @@ def configured_app():
     app.register_blueprint(mail_routes, url_prefix='/mail')
     app.register_blueprint(user_routes, url_prefix='/user')
     app.register_blueprint(search_routes, url_prefix='/search')
+
     return app
 
 

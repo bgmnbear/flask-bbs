@@ -1,43 +1,43 @@
-from flask import Blueprint, render_template, redirect, abort
+from flask import Blueprint, render_template, abort
+from flask.views import MethodView
 
 from models.follow import Follow
 from models.reply import Reply
 from models.topic import Topic
 from models.user import User
-from routes import current_user, sort_by_create_time, sort_by_update_time, sort_by_reply_time
-from utils import log
+
+from routes import current_user, sort_by_create_time, sort_by_reply_time
 
 main = Blueprint('user', __name__)
 
 
 @main.route("/<string:username>")
 def user(username):
-    u = User.find_by(username=username)
-    if u is not None:
-        ts = sort_by_create_time(Topic.find_all(user_id=u.id))
-        rs = sort_by_reply_time(Reply.find_all(user_id=u.id))
-        ots_ids = [r.topic_id for r in rs]
-        ots_id = sorted(set(ots_ids), key=ots_ids.index)
-        ots = [Topic.find_by(id=i) for i in ots_id]
+    user = User.find_by(username=username)
+    if user is not None:
+        topic = sort_by_create_time(Topic.find_all(user_id=user.id))
+        reply = sort_by_reply_time(Reply.find_all(user_id=user.id))
 
-        f = Follow.find_by(user_id=u.id)
+        topic_id = [r.topic_id for r in reply]
+        sorted_topic_id = sorted(set(topic_id), key=topic_id.index)
+        sorted_topic = [Topic.find_by(id=id) for id in sorted_topic_id]
 
-        following = [User.find_by(id=id)for id in f.following_id]
-        follower = [User.find_by(id=id)for id in f.follower_id]
-        print('following', following)
+        f = Follow.find_by(user_id=user.id)
+        following = [User.find_by(id=id) for id in f.following_id]
+        follower = [User.find_by(id=id) for id in f.follower_id]
 
-        return render_template("user.html", user=u, ts=ts, ots=ots, following=following, follower=follower)
+        return render_template("user.html", user=user, ts=topic, ots=sorted_topic, following=following,
+                               follower=follower)
     else:
-        abort(404)
+        abort(403)
 
 
 # TODO, did not return a response bug fixes
 @main.route("/<string:username>/follow")
 def follow(username):
-    c_u = current_user()
-    u = User.find_by(username=username)
-    log('finish')
-    if u is not None:
-        u_id = u.id
-        Follow.add_follow(c_u.id, u_id)
+    u = current_user()
+    user = User.find_by(username=username)
+    if user is not None:
+        u_id = user.id
+        Follow.add_follow(u.id, u_id)
     return None

@@ -12,14 +12,18 @@
                     <img src="{{ user.user_image }}" title="{{ user.username }}"/>
                 </div>
                 <a class="dark">{{ user.username }}</a>
-                <a id="follow_href" href="{{ url_for('user.follow', username=user.username) }}">
+                <a id="follow_href" href="{{ url_for('user.follow', username=user.username) }}"></a>
                     <button id="follow" type="button" class="btn btn-primary" data-complete-text="已关注"
                             data-toggle="button"
                             aria-pressed="false">
                         关注
                     </button>
-                </a>
-
+                <a id="mail" tabindex="0" class="btn btn-primary" role="button" data-toggle="popover" title="私信" data-template='<form method="post" action={{ url_for('mail.add') }}>
+<input type="text" name="content" placeholder="content">
+<input type="text" name="title" placeholder="title">
+<input type="text" name="receiver_id" placeholder="receiver_id">
+<button type="submit">提交邮件</button>
+</form>'>私信</a>
                 <div class="user_profile">
                     <ul class="unstyled">
                         <li>
@@ -138,13 +142,18 @@
             </div>
         </div>
     </div>
-    </div>
     <script>
         $('#follow').on('click', function () {
             $(this).button('complete')
             let href = $('#follow_href').attr('href')
             jQuery.get(href)
         })
+
+        $('#mail').on('click', function () {
+            $(this).popover('show')
+            console.log('click')
+        })
+
     </script>
 {% endblock %}
 
