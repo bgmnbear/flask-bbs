@@ -7,18 +7,21 @@
                     <li><a href="/topic">主页</a><span class="divider">/</span></li>
                 </ul>
             </div>
+                            <a id="follow_href" href="{{ url_for('user.follow', username=user.username) }}"></a>
+                <a id="unfollow_href" href="{{ url_for('user.unfollow', username=user.username) }}"></a>
             <div class="inner userinfo">
                 <div class="user_big_avatar">
                     <img src="{{ user.user_image }}" title="{{ user.username }}"/>
                 </div>
                 <a class="dark">{{ user.username }}</a>
-                <a id="follow_href" href="{{ url_for('user.follow', username=user.username) }}"></a>
-                    <button id="follow" type="button" class="btn btn-primary" data-complete-text="已关注"
-                            data-toggle="button"
-                            aria-pressed="false">
-                        关注
-                    </button>
-                <a id="mail" tabindex="0" class="btn btn-primary" role="button" data-toggle="popover" title="私信" data-template='<form method="post" action={{ url_for('mail.add') }}>
+
+                <button id="{{ button_id }}" type="button" class="btn btn-primary"
+                        data-toggle="button"
+                        aria-pressed="false">
+                    {{ button_id }}
+                </button>
+                <a id="mail" tabindex="0" class="btn btn-primary" role="button" data-toggle="popover" title="私信"
+                   data-template='<form method="post" action={{ url_for('mail.add') }}>
 <input type="text" name="content" placeholder="content">
 <input type="text" name="title" placeholder="title">
 <input type="text" name="receiver_id" placeholder="receiver_id">
@@ -143,15 +146,26 @@
         </div>
     </div>
     <script>
-        $('#follow').on('click', function () {
-            $(this).button('complete')
-            let href = $('#follow_href').attr('href')
+        $("div").delegate("#follow", "click", function (e) {
+            let href = $("#follow_href").attr("href")
             jQuery.get(href)
+            console.log('follow')
+            $(this).text("unfollow")
+            $(this).attr("id", "unfollow")
+            e.stopPropagation()
+        });
+
+        $("div").delegate("#unfollow", "click", function (e) {
+            let href = $("#unfollow_href").attr("href")
+            jQuery.get(href)
+            console.log('unfollow')
+            $(this).text("follow")
+            $(this).attr("id", "follow")
+            e.stopPropagation()
         })
 
         $('#mail').on('click', function () {
             $(this).popover('show')
-            console.log('click')
         })
 
     </script>

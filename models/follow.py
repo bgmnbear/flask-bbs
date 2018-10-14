@@ -49,5 +49,5 @@ class Follow(Mongoo):
 
     @staticmethod
     def delete_follow(user_id, other_id):
-        Follow._add_following(user_id, other_id)
-        Follow._add_follower(other_id, user_id)
+        Follow._delete_following(user_id, other_id)
+        Follow._delete_follower(other_id, user_id)
