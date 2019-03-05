@@ -662,8 +662,11 @@ textarea#title {
   margin-bottom: 0px;
   z-index: 9;
   width: 100%;
-  position: relative;
-  background: #444444;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  background-color: hsla(0,0%,100%,.4);
   font-size: 13px;
 }
 .navbar-inner {
@@ -693,9 +696,9 @@ textarea#title {
 .navbar .search-query {
   -webkit-box-shadow: none;
   -moz-box-shadow: none;
-  background: #888 url('../images/search.png') no-repeat 4px 4px;
+  background: transparent url('../images/search.png') no-repeat 4px 4px;
   padding: 3px 5px 3px 22px;
-  color: #666;
+  color: white;
   border: 0px;
   margin-top: 2px;
   transition: all 0.5s;
@@ -713,7 +716,7 @@ textarea#title {
 }
 .navbar .nav > li > a {
   text-shadow: none;
-  color: #cccccc;
+  color: black;
 }
 .navbar .nav > li > a:hover {
   color: #fff;
@@ -944,7 +947,7 @@ textarea.editor {
   vertical-align: middle;
   background-color: #e5e5e5;
   color: white;
-  background-color: #80bd01;
+  background-color: #08c;
 }
 .span-success:hover {
   background-color: #909090;
@@ -1014,7 +1017,7 @@ textarea.editor {
   color: #80bd01;
 }
 .topic-tab.current-tab {
-  background-color: #80bd01;
+  background-color: #08c;
   color: white;
   padding: 3px 4px;
   border-radius: 3px;
@@ -1152,4 +1155,24 @@ textarea.editor {
 }
 .sponsor_outlink:hover {
   text-decoration: none;
+}
+
+.course-class-infos {
+position: relative;
+    background: #666;
+}
+.info-bg ,.cover-img-wrap{
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+}
+.cover-img-wrap {
+    background: url(../images/new_bg.jpg);
+    z-index: 0;
+    overflow: hidden;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
 }

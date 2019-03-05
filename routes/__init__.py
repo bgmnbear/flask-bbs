@@ -22,3 +22,7 @@ def sort_by_reply_time(reply):
 
 def delete_session():
     session.clear()
+
+
+def context():
+    return dict()

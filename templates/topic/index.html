@@ -101,14 +101,14 @@
                                         <img src="{{ t.user().user_image }}" title="{{ t.user().username }}"/>
                                     </a>
 
-                                    <a class="topic_title" href="{{ url_for('topic.detail', id=t.id) }}">
+                                    <a class="topic_title" href="{{ url_for('topic.detail', id=t.id) }}" style="position: absolute;left: 60px;">
                                         {{ t.title }}
                                     </a>
-                                    <span>{{ t.replies() | count }} / {{ t.views }}</span>
-                                    <a class="topic_title" href="{{ url_for('topic.delete', id=t.id) }}">
-                                        删除
-                                    </a>
-                                    <span>{{ bbs_time(t.update_time) }}</span>
+                                    <span style="position: absolute;right: 100px;">{{ t.replies() | count }} / {{ t.views }}</span>
+{#                                    <a class="topic_title" href="{{ url_for('topic.delete', id=t.id) }}">#}
+{#                                        删除#}
+{#                                    </a>#}
+                                    <span style="position: absolute;right: 0;">{{ bbs_time(t.update_time) }}</span>
 
                                 </div>
                             </div>

@@ -33,13 +33,14 @@ class Follow(Mongoo):
     @staticmethod
     def _delete_following(user_id, other_id):
         f = Follow.find_by(user_id=user_id)
+        print(user_id, other_id)
         f._get_following_id().remove(other_id)
         f.save()
 
     @staticmethod
     def _delete_follower(user_id, other_id):
         f = Follow.find_by(user_id=user_id)
-        f._get_following_id().remove(other_id)
+        f._get_follower_id().remove(other_id)
         f.save()
 
     @staticmethod

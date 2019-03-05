@@ -1,5 +1,4 @@
 from flask import Blueprint, render_template, abort
-from flask.views import MethodView
 
 from models.follow import Follow
 from models.reply import Reply
