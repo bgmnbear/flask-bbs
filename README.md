@@ -1,10 +1,4 @@
 # flask-bbs
 
-## TODO
- * ~~错误信息闪现~~
- * ~~删帖权限验证~~
- * ~~全局模糊搜索~~
- * 用户关注以及私信功能
- * 页面美化
-
-
+# 截图预览
+![image](https://github.com/bgmnbear/flask-bbs/images/XOQ_2[RHQFSCSIEJ8U44WFQ.png)
