@@ -1,5 +1,6 @@
 import time
 from pymongo import MongoClient
+from bson.json_util import dumps
 
 mongoo = MongoClient()
 
@@ -150,16 +151,8 @@ class Mongoo(object):
         }
         mongoo.db[name].update_one(query, values)
 
-    def blacklist(self):
-        b = [
-            '_id',
-        ]
-        return b
-
     def json(self):
-        _dict = self.__dict__
-        d = {k: v for k, v in _dict.items() if k not in self.blacklist()}
-        return d
+        return dumps(self.__dict__)
 
     @classmethod
     def search(cls, query):
