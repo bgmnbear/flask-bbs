@@ -5,10 +5,6 @@ from bson.json_util import dumps
 mongoo = MongoClient()
 
 
-def timestamp():
-    return int(time.time())
-
-
 def next_id(name):
     query = {
         'name': name,
@@ -69,9 +65,9 @@ class Mongoo(object):
                 raise KeyError
 
         m.id = next_id(name)
-        ts = int(time.time())
-        m.created_time = ts
-        m.updated_time = ts
+        t = time.time()
+        m.created_time = t
+        m.updated_time = t
         m.deleted = False
         m.save()
         return m

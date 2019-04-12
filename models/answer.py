@@ -2,7 +2,7 @@ from models.mongoo import Mongoo
 from models.user import User
 
 
-class Question(Mongoo):
+class Answer(Mongoo):
     @classmethod
     def valid_names(cls):
         names = super().valid_names()
@@ -11,19 +11,20 @@ class Question(Mongoo):
             ('title', str, ''),
             ('content', str, ''),
             ('user_id', int, 0),
+
         ]
         return names
 
     @classmethod
     def get(cls, id):
-        question = cls.find_by(id=id)
-        question.views += 1
-        question.save()
-        return question
+        answer = cls.find_by(id=id)
+        answer.views += 1
+        answer.save()
+        return answer
 
     def replies(self):
         from .reply import Reply
-        r = Reply.find_all(question_id=self.id)
+        r = Reply.find_all(answer_id=self.id)
         return r
 
     def user(self):
