@@ -1,16 +1,16 @@
-from flask import Flask
-from flask_restful import Resource, Api, abort
-
+from flask_restful import Resource, abort, reqparse
 from models.question import Question
-from utils import log
-
-app = Flask(__name__)
-api = Api(app)
 
 
 def abort_if_question_doesnt_exist(q):
     if q is None:
         abort(404, message="Question doesn't exist")
+
+
+post_parser = reqparse.RequestParser()
+post_parser.add_argument('title', type=str)
+post_parser.add_argument('content', type=str)
+post_parser.add_argument('user_id', type=str)
 
 
 class QuestionApi(Resource):
@@ -29,17 +29,8 @@ class QuestionListApi(Resource):
         pass
 
     def post(self):
-        q = Question.new(dict(title='123123', content='123123', user_id='33'))
+        args = post_parser.parse_args()
+        d = {'title': args.title, 'content': args.content, 'user_id': args.user_id}
+        q = Question.new(d)
         q.save()
-        log('post', q)
-
-
-class Answer(Resource):
-    pass
-
-
-api.add_resource(QuestionApi, '/question/<question_id>')
-api.add_resource(QuestionListApi, '/question')
-
-if __name__ == '__main__':
-    app.run(debug=True)
+        return q.json(), 201

@@ -11,7 +11,7 @@ class Answer(Mongoo):
             ('title', str, ''),
             ('content', str, ''),
             ('user_id', int, 0),
-
+            ('question_id', int)
         ]
         return names
 
