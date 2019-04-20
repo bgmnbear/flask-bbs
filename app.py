@@ -6,13 +6,11 @@ from routes.board import main as board_routes
 from routes.mail import main as mail_routes
 from routes.user import main as user_routes
 from routes.search import main as search_routes
-
 from config import secret_key
 
 
 def configured_app():
     app = Flask(__name__)
-
     app.secret_key = secret_key
 
     app.register_blueprint(index_routes)
@@ -29,7 +27,6 @@ def configured_app():
 if __name__ == '__main__':
     config = dict(
         debug=True,
-        # host='0.0.0.0',
         port=3000,
         threaded=True,
     )
